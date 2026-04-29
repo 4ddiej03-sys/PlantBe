@@ -3,8 +3,12 @@ import { useState } from "react";
 
 export function PlantCard({ plant: p, onToggleFavorite, isFavorite, accentColor, cardBg, textColor, mutedColor, dark, compact }) {
   const [expanded, setExpanded] = useState(false);
-  const sans = "'DM Sans', system-ui, sans-serif";
+  const sans  = "'DM Sans', system-ui, sans-serif";
   const serif = "'Cormorant Garamond', Georgia, serif";
+
+  // Build Wikipedia URL from scientific name or common name
+  const wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(p.scientificName || p.name)}`;
+  const wikiSearchUrl = `https://en.wikipedia.org/w/index.php?search=${encodeURIComponent(p.name)}`;
 
   return (
     <div style={{ background: cardBg, borderRadius: 16, marginBottom: 16, overflow: "hidden", border: `1px solid ${dark ? "rgba(45,106,79,0.2)" : "#e8f4e8"}` }}>
@@ -46,6 +50,7 @@ export function PlantCard({ plant: p, onToggleFavorite, isFavorite, accentColor,
           {expanded && (
             <div style={{ padding: "0 20px 20px" }}>
 
+              {/* Health */}
               {p.health?.length > 0 && (
                 <div style={{ marginBottom: 20 }}>
                   <p style={{ fontFamily: sans, fontSize: 11, fontWeight: 600, color: mutedColor, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>💊 Health Properties</p>
@@ -55,6 +60,7 @@ export function PlantCard({ plant: p, onToggleFavorite, isFavorite, accentColor,
                 </div>
               )}
 
+              {/* Care */}
               {p.care && (
                 <div style={{ marginBottom: 20 }}>
                   <p style={{ fontFamily: sans, fontSize: 11, fontWeight: 600, color: mutedColor, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>🪴 Care Guide</p>
@@ -74,6 +80,7 @@ export function PlantCard({ plant: p, onToggleFavorite, isFavorite, accentColor,
                 </div>
               )}
 
+              {/* Indigenous knowledge */}
               {p.indigenous && (
                 <div style={{ marginBottom: 20, background: dark ? "rgba(45,106,79,0.1)" : "#f0f8f4", borderRadius: 12, padding: "14px 16px", borderLeft: `3px solid ${accentColor}` }}>
                   <p style={{ fontFamily: sans, fontSize: 11, fontWeight: 600, color: accentColor, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>🌍 Indigenous Knowledge</p>
@@ -81,6 +88,7 @@ export function PlantCard({ plant: p, onToggleFavorite, isFavorite, accentColor,
                 </div>
               )}
 
+              {/* Seasonal */}
               {p.seasonal && (
                 <div style={{ marginBottom: 20 }}>
                   <p style={{ fontFamily: sans, fontSize: 11, fontWeight: 600, color: mutedColor, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>🌸 Seasonal Care</p>
@@ -88,6 +96,7 @@ export function PlantCard({ plant: p, onToggleFavorite, isFavorite, accentColor,
                 </div>
               )}
 
+              {/* Recipes */}
               {p.recipes?.length > 0 && (
                 <div style={{ marginBottom: 16 }}>
                   <p style={{ fontFamily: sans, fontSize: 11, fontWeight: 600, color: mutedColor, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>🍳 Che AF Recipe Ideas</p>
@@ -100,8 +109,9 @@ export function PlantCard({ plant: p, onToggleFavorite, isFavorite, accentColor,
                 </div>
               )}
 
+              {/* Cocktails */}
               {p.cocktails?.length > 0 && (
-                <div style={{ marginBottom: 16 }}>
+                <div style={{ marginBottom: 20 }}>
                   <p style={{ fontFamily: sans, fontSize: 11, fontWeight: 600, color: mutedColor, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>🍹 Mix-R Cocktail Ideas</p>
                   {p.cocktails.map((c, i) => (
                     <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: `1px solid ${dark ? "rgba(45,106,79,0.1)" : "#e8f4e8"}` }}>
@@ -112,12 +122,59 @@ export function PlantCard({ plant: p, onToggleFavorite, isFavorite, accentColor,
                 </div>
               )}
 
+              {/* Fun fact */}
               {p.funFact && (
-                <div style={{ background: dark ? "rgba(0,0,0,0.2)" : "#fffbeb", borderRadius: 12, padding: "14px 16px", borderLeft: "3px solid #d97706" }}>
+                <div style={{ marginBottom: 20, background: dark ? "rgba(0,0,0,0.2)" : "#fffbeb", borderRadius: 12, padding: "14px 16px", borderLeft: "3px solid #d97706" }}>
                   <p style={{ fontFamily: sans, fontSize: 11, fontWeight: 600, color: "#d97706", marginBottom: 6 }}>💡 Did you know?</p>
                   <p style={{ fontFamily: sans, fontSize: 13, color: textColor, lineHeight: 1.7 }}>{p.funFact}</p>
                 </div>
               )}
+
+              {/* ── SOURCE ATTRIBUTION ── */}
+              <div style={{ marginTop: 8, padding: "14px 16px", background: dark ? "rgba(0,0,0,0.2)" : "#f8f8f8", borderRadius: 12, border: `1px solid ${dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}` }}>
+                <p style={{ fontFamily: sans, fontSize: 11, fontWeight: 600, color: mutedColor, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>📚 Learn More & Sources</p>
+
+                <a href={wikiUrl} target="_blank" rel="noopener noreferrer"
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: `1px solid ${dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`, textDecoration: "none" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <span style={{ fontSize: 16 }}>📖</span>
+                    <div>
+                      <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 600, color: accentColor }}>Wikipedia</div>
+                      <div style={{ fontFamily: sans, fontSize: 11, color: mutedColor }}>{p.scientificName || p.name}</div>
+                    </div>
+                  </div>
+                  <span style={{ color: accentColor, fontSize: 14 }}>↗</span>
+                </a>
+
+                <a href={`https://www.gbif.org/search?q=${encodeURIComponent(p.scientificName || p.name)}`} target="_blank" rel="noopener noreferrer"
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderBottom: `1px solid ${dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"}`, textDecoration: "none" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <span style={{ fontSize: 16 }}>🌍</span>
+                    <div>
+                      <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 600, color: accentColor }}>GBIF — Global Biodiversity</div>
+                      <div style={{ fontFamily: sans, fontSize: 11, color: mutedColor }}>Scientific plant database</div>
+                    </div>
+                  </div>
+                  <span style={{ color: accentColor, fontSize: 14 }}>↗</span>
+                </a>
+
+                <a href={`https://www.rhs.org.uk/search?query=${encodeURIComponent(p.name)}`} target="_blank" rel="noopener noreferrer"
+                  style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", textDecoration: "none" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <span style={{ fontSize: 16 }}>🌸</span>
+                    <div>
+                      <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 600, color: accentColor }}>RHS — Royal Horticultural Society</div>
+                      <div style={{ fontFamily: sans, fontSize: 11, color: mutedColor }}>Care guides & gardening advice</div>
+                    </div>
+                  </div>
+                  <span style={{ color: accentColor, fontSize: 14 }}>↗</span>
+                </a>
+
+                <p style={{ fontFamily: sans, fontSize: 11, color: mutedColor, marginTop: 12, lineHeight: 1.6 }}>
+                  Plant data is AI-generated using Claude (Anthropic) and cross-referenced with publicly available sources. Always consult a qualified professional before using any plant for medicinal purposes.
+                </p>
+              </div>
+
             </div>
           )}
         </>
