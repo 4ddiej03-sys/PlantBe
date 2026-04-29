@@ -152,7 +152,11 @@ export default function App() {
         if (data.plants?.length) setPlants(data.plants);
         if (data.favorites?.length) setFavorites(data.favorites);
         if (data.scan_count) setScanCount(data.scan_count);
+        // Founder (#1) — free forever
         if (data.member_number === 1) { setIsFounder(true); setIsPro(true); }
+        // Pioneer members (#2-200) — free Pro forever
+        else if (data.member_number >= 2 && data.member_number <= 50) { setIsPro(true); }
+        // Paid Pro
         else if (data.is_pro) setIsPro(true);
       }
     }).catch(console.error);
