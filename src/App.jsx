@@ -155,7 +155,7 @@ export default function App() {
         // Founder (#1) — free forever
         if (data.member_number === 1) { setIsFounder(true); setIsPro(true); }
         // Pioneer members (#2-200) — free Pro forever
-        else if (data.member_number >= 2 && data.member_number <= 50) { setIsPro(true); }
+        else if (data.member_number >= 2 && data.member_number <= 30) { setIsPro(true); }
         // Paid Pro
         else if (data.is_pro) setIsPro(true);
       }
